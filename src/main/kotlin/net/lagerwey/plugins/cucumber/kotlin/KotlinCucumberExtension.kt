@@ -68,7 +68,7 @@ class KotlinCucumberExtension : AbstractCucumberExtension() {
 
     override fun loadStepsFor(featureFile: PsiFile?, module: Module): MutableList<AbstractStepDefinition> {
         val result = mutableListOf<AbstractStepDefinition>()
-        val dependenciesScope = module.moduleContentWithDependenciesScope
+        val dependenciesScope = featureFile?.resolveScope ?: module.getModuleWithDependenciesAndLibrariesScope(true)
         val kotlinFiles = GlobalSearchScope.getScopeRestrictedByFileTypes(dependenciesScope, KotlinFileType.INSTANCE)
         for (method in (featureFile as GherkinFile).stepKeywords.filter { it != "*" }) {
             val occurrencesProcessor: (PsiElement, Int) -> Boolean = { element, _ ->
@@ -88,5 +88,4 @@ class KotlinCucumberExtension : AbstractCucumberExtension() {
         }
         return result
     }
-
 }

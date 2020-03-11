@@ -58,7 +58,7 @@ class KotlinStepDefinitionCreator : AbstractStepDefinitionCreator() {
         val ktFile = (file as? KtFile) ?: return false
         val ktPsiFactory = KtPsiFactory(file.project, markGenerated = true)
         // TODO: Kotlin files can have multiple classes. Make sure to find correct one.
-        val ktClass = (ktFile.classes.firstOrNull() as? KtLightClassForSourceDeclaration) ?: return false
+        val ktClass = (ktFile.getClasses().firstOrNull() as? KtLightClassForSourceDeclaration) ?: return false
         val initializer = ktClass.kotlinOrigin.getAnonymousInitializers()[0].body as? KtBlockExpression
         val expression = ktPsiFactory.createExpression("""
             ${step.keyword.text}("${step.stepName.replace("\"", "\\\"")}") {

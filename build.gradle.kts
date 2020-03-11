@@ -14,11 +14,11 @@ buildscript {
 }
 plugins {
     base
-    kotlin("jvm") version "1.3.31"
-    id("org.jetbrains.intellij") version "0.4.8"
+    kotlin("jvm") version "1.3.61"
+    id ("org.jetbrains.intellij") version "0.4.15"
 }
 val kotlinVersion = extra.properties["kotlinVersion"] as String
-val ideaVersion = extra.properties["ideaVersion"] as? String ?: "2019.1.3"
+val ideaVersion = extra.properties["ideaVersion"] as? String ?: "2019.2"
 
 apply {
     plugin("org.jetbrains.intellij")
@@ -42,6 +42,18 @@ intellij {
                     "gherkin:191.6707.7",
                     "org.jetbrains.kotlin:$kotlinVersion-release-IJ2019.1-1"
             )
+        "2019.2" ->
+            setPlugins(
+                    "java",
+                    "gherkin:192.5728.12",
+                    "org.jetbrains.kotlin:$kotlinVersion-release-IJ2019.2-1"
+            )
+    }
+}
+
+if (project.hasProperty("ideDirectory")) {
+    tasks.runIde {
+        setIdeDirectory(project.properties["ideDirectory"])
     }
 }
 
